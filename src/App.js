@@ -4,24 +4,13 @@ import classNames from 'classnames';
 import {Slide} from 'react-reveal'
 import {ListItem} from "./ListItem";
 import resume from './resources/Brianne_Matthews_Resume.pdf';
-import {
-  bio,
-  graduateCourses,
-  languages,
-  mathCourses,
-  tools,
-  undergraduateCourses,
-  GPA,
-  projects,
-  industryExperience
-} from "./data"
 import {Grid} from "@material-ui/core"
 import {ReactComponent as CodeIcon} from './resources/code.svg';
 import {ReactComponent as GithubIcon} from './resources/github.svg';
 import {ReactComponent as MailIcon} from './resources/gmail.svg';
 import {ReactComponent as LinkedinIcon} from './resources/linkedin.svg';
 import {ReactComponent as ResumeIcon} from './resources/resume.svg';
-
+import {GPA, languages, tools, undergraduateCourses, graduateCourses, mathCourses, industryExperience, projects} from "./data";
 
 class App extends React.Component {
   constructor(props) {
