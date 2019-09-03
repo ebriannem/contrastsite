@@ -3,7 +3,18 @@ import './App.css';
 import classNames from 'classnames';
 import {Slide} from 'react-reveal'
 import {ListItem} from "./ListItem";
-import {bio, graduateCourses, languages, mathCourses, tools, undergraduateCourses, GPA, projects} from "./data"
+import resume from './resources/Brianne_Matthews_Resume.pdf';
+import {
+  bio,
+  graduateCourses,
+  languages,
+  mathCourses,
+  tools,
+  undergraduateCourses,
+  GPA,
+  projects,
+  industryExperience
+} from "./data"
 import {Grid} from "@material-ui/core"
 import {ReactComponent as CodeIcon} from './resources/code.svg';
 import {ReactComponent as GithubIcon} from './resources/github.svg';
@@ -25,23 +36,20 @@ class App extends React.Component {
       darkMode: dark
     })
   };
+  
+  sectionTag = () => (window.innerWidth / 10 < 50 ? "Section-Small" : "Section");
 
   getColorClass = () => {
     return this.state.darkMode ? "darkMode" : "lightMode";
   };
 
-  getOppositeColorClass = () => {
-    return this.state.darkMode ? "lightMode" : "darkMode";
-  };
-
   listenScrollEvent = e => {
-    if (window.scrollY % (window.innerHeight * 2) > window.innerHeight) {
+    if (window.scrollY % (window.innerHeight * 3) >= window.innerHeight * 1.5) {
       this.toggleColorMode(false);
     } else {
       this.toggleColorMode(true);
     }
   };
-
 
   componentDidMount() {
     window.addEventListener('scroll', this.listenScrollEvent)
@@ -50,7 +58,6 @@ class App extends React.Component {
   componentWillUnmount() {
     window.removeEventListener('scroll', this.listenScrollEvent);
   }
-
 
   generateProject = (project, imgLeft) => {
     let details =
@@ -78,8 +85,9 @@ class App extends React.Component {
             </Grid>
           </Slide>
         </Grid>;
-    let image = <Grid item>
-      <p>project.image</p>
+    let image = <Grid item xs={5}>
+      <img className={"Project-Image"} alt={project.title}
+           src={window.location.origin + "/" + project.image}/>
     </Grid>;
     return (
         <Grid container justify={"space-between"}>
@@ -89,19 +97,56 @@ class App extends React.Component {
     )
   };
 
+
+  generateExperience = (experience, imgLeft) => (
+      <div className={"Experience"}>
+        <Grid item>
+          <Grid container justify={"space-between"}>
+            <Grid item>
+              <h3 className={"Experience-Company"}>{experience.company}</h3>
+              <h4>{experience.title}</h4>
+            </Grid>
+            <Grid item>
+              <h4>{experience.dates}</h4>
+            </Grid>
+          </Grid>
+          <Slide right={imgLeft} left={!imgLeft}>
+            <div className={"Experience-Content"}>
+              {experience.content}
+            </div>
+          </Slide>
+          <Slide right={imgLeft} left={!imgLeft}>
+            <Grid container justify={"space-right"} className={"Experience-Languages"}>
+              {experience.languages.map((item) => <Grid item><ListItem
+                  mode={this.getColorClass} title={item}
+                  width={"min-content"}/> </Grid>)}
+            </Grid>
+            <Grid container justify={"space-right"} className={"Experience-Tools"}>
+              {experience.tools.map((item) => <Grid item><ListItem
+                  mode={this.getColorClass} title={item}
+                  width={"min-content"}/> </Grid>)}
+            </Grid>
+          </Slide>
+        </Grid>
+      </div>
+  );
+
   render() {
     return (
         <div className={classNames("App", this.getColorClass())}>
           <div className={"sidebar"}>
-            <Grid  className={"sidebar-grid"} container direction="column" spacing="2" justify="flex-end">
+            <Grid className={"sidebar-grid"} container direction="column" spacing="2" justify="flex-end">
               <Grid item>
-                <GithubIcon width="30px" className={classNames("Link", this.getColorClass())}/>
+                <a href={"https://www.github.com/ebriannem"}><GithubIcon width="30px"
+                                                                         className={classNames("Link", this.getColorClass())}/></a>
               </Grid> <Grid item>
-              <MailIcon width="30px" className={classNames("Link", this.getColorClass())}/>
+              <a href={"mailto:e.brianne.matthews@gmail.com"}><MailIcon width="30px"
+                                                                        className={classNames("Link", this.getColorClass())}/></a>
             </Grid> <Grid item>
-              <LinkedinIcon width="30px" className={classNames("Link", this.getColorClass())}/>
+              <a href={"https://www.linkedin.com/in/ebriannem/"}><LinkedinIcon width="30px"
+                                                                               className={classNames("Link", this.getColorClass())}/></a>
             </Grid> <Grid item>
-              <ResumeIcon width="30px" className={classNames("Link", this.getColorClass())}/>
+              <a href={resume} target={"_blank"}> <ResumeIcon width="30px" className={classNames("Link", this.getColorClass())}/></a>
             </Grid>
             </Grid>
           </div>
@@ -109,7 +154,7 @@ class App extends React.Component {
             <h1 className="Name-Header-First">Brianne</h1>
             <h3 className={"Name-Header-Surname Line"}><span>Matthews</span></h3>
           </div>
-          <div className={classNames("Skills", "Section", this.getColorClass())}>
+          <div className={classNames("Skills", this.sectionTag(), this.getColorClass())}>
             <h2 className={classNames("LineLeft", this.getColorClass())}><span>Skills</span></h2>
             <Grid container justify={"space-evenly"}>
               <Grid item>
@@ -127,7 +172,7 @@ class App extends React.Component {
               </Grid>
             </Grid>
           </div>
-          <div className={classNames("Education", "Section", this.getColorClass())}>
+          <div className={classNames("Education", this.sectionTag(), this.getColorClass())}>
             <h2 className={classNames("LineLeft", this.getColorClass())}><span>Education</span></h2>
             <Grid container justify={"space-between"}>
               <Grid item>
@@ -140,12 +185,13 @@ class App extends React.Component {
             <Grid container justify={"space-between"}>
               <Grid item>
                 <p>Bachelor's of Science in Computer Science</p>
-                <p>Master's in Computer Science</p>
+                <p>Master's of Science in Computer Science</p>
+                <p style={{fontSize: ".7em", padding:0, marginTop:"-2.2em"}}>Note: This degree is only predicted & the date is the same as the undergraduate since I am doing a combined program.</p>
                 <p>Minor in Mathematics</p>
               </Grid>
               <Grid item>
-                <p>May 2020</p>
-                <p>May 2020</p>
+                <p>May 2021</p>
+                <p>May 2021</p>
                 <p>May 2021</p>
               </Grid>
             </Grid>
@@ -173,15 +219,23 @@ class App extends React.Component {
               </Grid>
             </Grid>
           </div>
-          <div className={classNames("Projects", "Section", this.getColorClass())}>
+          <div className={classNames("Experiences", this.sectionTag(), this.getColorClass())}>
+            <h2 className={classNames("LineLeft", this.getColorClass())}><span>Industry Experience</span></h2>
+            {industryExperience.map((p, i) => {
+              return (<div className={"Experience"}>{this.generateExperience(p, (i % 2 === 0))}</div>)
+            })}
+          </div>
+          <div className={classNames("Projects", this.sectionTag(), this.getColorClass())}>
             <h2 className={classNames("LineLeft", this.getColorClass())}><span>Projects</span></h2>
             {projects.map((p, i) => {
               return (<div className={"Project"}>{this.generateProject(p, (i % 2 === 0))}</div>)
             })}
           </div>
-          <div className={classNames("Section", this.getColorClass())}>
-            <h2 className={classNames("LineLeft", this.getColorClass())}><span>Links & Contact</span></h2>
+          <div className={classNames("Footer", this.sectionTag(), this.getColorClass())}>
+            <h2 className={classNames("LineLeft", this.getColorClass())}><span>Thanks for visiting!</span></h2>
 
+            <p>See the link on the the side for my resume and contact information.</p>
+            <p>e.brianne.matthews@gmail.com</p>
           </div>
         </div>
     )

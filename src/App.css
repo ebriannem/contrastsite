@@ -29,6 +29,10 @@ h2, h3, h4 {
   padding: 5vh 5vw;
 }
 
+.Section-Small {
+  padding: 5vh 40px;
+}
+
 .darkMode {
   background-color: #15131C;
   color: #EDF4ED;
@@ -138,14 +142,20 @@ h2, h3, h4 {
 .Project-Content {
   width: 40vw;
 }
-
+.Project-Image {
+  width: 100%;
+  height: auto;
+  padding-top: 5%;
+}
 .Link {
+  background-color: unset;
   cursor: pointer;
 }
 
 .Link.lightMode:hover {
   color: #890C1D;
 }
+
 
 .Link.darkMode:hover {
   color: #F7C138;
@@ -160,8 +170,12 @@ h2, h3, h4 {
   left: 0;
   padding: 5px;
   height: 100%;
-
+  width: 30px;
+  overflow: hidden;
 }
 .sidebar-grid {
   height: 100%;
+}
+p {
+  line-height: 2em;
 }
